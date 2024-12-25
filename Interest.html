@@ -23,11 +23,16 @@
         tr:nth-child(even) {
           background-color: #dddddd;
         }
+        .tbl { border-collapse: collapse; width:300px; }
+        .tbl th, .tbl td { padding: 5px; border: solid 1px #777; }
+        .tbl th { background-color: lightblue; }
+        .tbl-separate { border-collapse: separate; border-spacing: 5px;}
+        
         </style>
 </head>
 <body>
   <h2><a href="index.html">Interest</a></h2>
-    <table>
+    <table id="mytable" class="tbl">
         <tr>
           <th>S.N</th>
           <th>Member Name</th>
