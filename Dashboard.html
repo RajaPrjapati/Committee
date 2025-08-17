@@ -1,135 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Dashboard</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 550px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-        
-    /* On small screens, set height to 'auto' for the grid */
-    @media screen and (max-width: 767px) {
-      .row.content {height: auto;} 
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --dark-pink: #d6336c;
+  --light: #fff;
+  --dark: #222;
+  --gray: #f8f9fa;
+}
+
+/* Reset */
+* {margin:0; padding:0; box-sizing:border-box; font-family: Arial, sans-serif;}
+body { background: var(--gray); padding:15px; }
+
+/* Dashboard Container */
+.dashboard {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: 1fr; /* Mobile default */
+}
+
+/* Card */
+.card {
+  background: var(--light);
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display:flex;
+  align-items:center;
+  gap: 15px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card i {
+  font-size: 32px;
+  color: var(--dark-pink);
+  min-width: 40px;
+  text-align:center;
+}
+.card .info {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+}
+.card h3 {
+  font-size: 16px;
+  color: var(--dark);
+  margin-bottom: 5px;
+}
+.card p {
+  font-size: 20px;
+  font-weight:bold;
+  color: var(--dark-pink);
+}
+.card small {
+  color: #666;
+  font-size: 12px;
+}
+
+/* Links for numbers */
+.amount-link {
+  color: var(--dark-pink);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.amount-link:hover {
+  color: #b02155;
+  text-decoration: underline;
+}
+
+/* Interest card special layout */
+.interest-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.interest-info .left {
+  display: flex;
+  flex-direction: column;
+}
+.interest-info .button {
+  display: inline-block;
+  background: var(--dark-pink);
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.interest-info .button:hover {
+  background: #b02155;
+  transform: translateY(-2px);
+}
+
+/* Highlight Card (Top Info) */
+.top-card {
+  background: linear-gradient(135deg, var(--dark-pink), #ff6b9d);
+  color: var(--light);
+  text-align:center;
+  padding: 20px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight:bold;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  grid-column: 1 / -1; /* always full width */
+}
+
+/* Button text control */
+.text-mobile { display: none; }
+.text-desktop { display: inline; }
+
+@media (max-width: 768px) {
+  .text-desktop { display: none; }
+  .text-mobile { display: inline; }
+}
+
+/* Responsive Grid */
+@media (min-width: 769px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr; /* 2 cards per row */
+  }
+}
+</style>
 </head>
 <body>
 
-<nav class="navbar navbar-inverse visible-xs">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="index.html">Back</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Dashboard</a></li> 
-      </ul>
-    </div>
-  </div>
-</nav>
+<div class="dashboard">
 
-<div class="container-fluid">
-  <div class="row content">
-    <div class="col-sm-3 sidenav hidden-xs">
-      <a href="#"><h2>Back</h2></a>
-      <ul class="nav nav-pills nav-stacked">
-        <li class="active"><a href="#section1">Dashboard</a></li>
-      </ul><br>
-    </div>
-    <br>
-    
-    <div class="col-sm-9">
-      <div class="well">
-        <h5>Committee 10 Dec 2024 - 10 Dec 2026</h5>
-        <p>Total summary till 10 August 2025</p>
-      </div>
-      <div class="row">
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Committee members</h4>
-            <a href="MemberDetails.html">23 <span style="color:red;">   (2Left - Sarita/Sonu 10 May 2025)</span></a> 
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Members Deposited </h4>
-            <a href="Month2025.html">4,41,000/-</a> 
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Interest Amount</h4>  
-            <a href="Interest.html">17,970/-</a>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <a href="Interest Hisab.html">Interest Hisab</a>
-          </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="well">
-            <h4>Total Balance</h4>
-            <a href="Month2025.html">4,58,970/-</a>
-             
-          </div>
-        </div>
-      </div>
-     <!-- <div class="row">
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p> 
-            <p>Text</p> 
-            <p>Text</p> 
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-8">
-          <div class="well">
-            <p>Text</p> 
-          </div>
-        </div>
-        <div class="col-sm-4">
-          <div class="well">
-            <p>Text</p> 
-          </div>  -->
-        </div>
-      </div>
+  <!-- Top Summary -->
+  <div class="top-card">
+    Committee <br>
+    <small>10 Dec 2024 - 10 Dec 2026</small><br>
+    Total summary till <b>10 August 2025</b>
+  </div>
+
+  <!-- Members -->
+  <div class="card">
+    <i class="fa-solid fa-users"></i>
+    <div class="info">
+      <h3>Committee Members</h3>
+      <p><a href="#" class="amount-link">23</a> 
+        <small style="color:red;">(2 Left - Sarita/Sonu 10 May 2025)</small>
+      </p>
     </div>
   </div>
+
+  <!-- Deposits -->
+  <div class="card">
+    <i class="fa-solid fa-sack-dollar"></i>
+    <div class="info">
+      <h3>Members Deposited</h3>
+      <p><a href="#" class="amount-link">4,41,000/-</a></p>
+    </div>
+  </div>
+
+  <!-- Interest -->
+  <div class="card">
+    <i class="fa-solid fa-percent"></i>
+    <div class="interest-info">
+      <div class="left">
+        <h3>Interest Amount</h3>
+        <p><a href="#" class="amount-link">17,970/-</a></p>
+      </div>
+      <a href="#" class="button">
+        <span class="text-desktop">Interest Calculation</span>
+        <span class="text-mobile">Interest</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Balance -->
+  <div class="card">
+    <i class="fa-solid fa-wallet"></i>
+    <div class="info">
+      <h3>Total Balance</h3>
+      <p><a href="#" class="amount-link">4,58,970/-</a></p>
+    </div>
+  </div>
+
 </div>
 
 </body>
 </html>
-
-
-
