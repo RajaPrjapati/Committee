@@ -1,325 +1,188 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link
-    href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
-    rel="stylesheet"
-/>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Main Page</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-   *{
-    margin: 0;
-    padding: 0;          
-    list-style: none;
-    text-decoration: none;
-  }   
-nav{ 
-  background-color: #e60064;
-  width: 100%;
-  height: 80px;
+:root {
+  --dark-pink: #d6336c;  
+  --dark-pink-transparent: rgba(214,51,108,0.95); 
+  --light: #fff;          
+  --dark: #222;
 }
 
-nav ul{
-  float: right;
-  margin-right: 55px;
-  z-index: 1;
+/* Reset */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial, sans-serif; background:#f4f6f8; }
+
+/* Header */
+header {
+  background: var(--dark-pink);
+  color: var(--light);
+  padding:10px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:61px;
+  z-index:1000;
+}
+.branding { display:flex; align-items:center; gap:10px; }
+.branding img {
+  height:50px; width:50px;
+  border-radius:50%; object-fit:cover;
+  border: 3px solid var(--dark-pink);
+  background:#fff;
+}
+.branding h1 { font-size:24px; }
+
+/* Navbar Desktop */
+header nav ul {
+  display:flex; gap:15px;
+  list-style: none; padding: 0; margin: 0;
+}
+nav a {
+  text-decoration:none;
+  color: var(--light);
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  padding:6px 1px;
+  border-radius:6px;
+  transition:0.3s;
+  position:relative;
+}
+nav a i { font-size:16px; }
+nav a:hover { background: rgba(255,255,255,0.2); color:#ffd6e0; }
+nav a.active { background:#fff; color:var(--dark-pink); }
+
+/* 🔥 Underline only for selected menu items */
+nav a.underline::after {
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:-3px;
+  height:1px;
+  background:#fff;
+  transition:0.3s;
+}
+nav a.underline:hover::after { background:#ffd6e0; }
+
+/* 🚫 Remove underline on desktop */
+@media (min-width:769px){
+  nav a.underline::after { display:none; }
 }
 
-nav ul li a{
-  color: #fff;
-  font-size: 11px;
-  padding: 0px 5px; 
-  text-transform: capitalize;
+/* Hamburger icon */
+.menu-toggle { display:none; font-size:24px; cursor:pointer; color: var(--light); }
+
+/* Slider */
+.slider {
+  position:fixed; top:6px; bottom:50px; left:0; right:0;
+  overflow:hidden; z-index:0;
+}
+.slides { display:flex; height:100%; transition:transform 1s ease-in-out; }
+.slide {
+  min-width:100%; height:100%;
+  background-size:cover; background-position:center;
 }
 
-nav ul li{
-  display: inline-block;
-  line-height: 80px;
+/* Footer */
+footer {
+  position: fixed; bottom: 0; left: 0;
+  width: 100%; background: var(--dark-pink);
+  color: var(--light);
+  display:flex; justify-content:center; align-items:center;
+  padding:10px 0; height:60px;
+  font-weight:bold; text-align:center; z-index:1000;
 }
-label.logo{
-  color: #fff;
-  font-size: 35px;
-  line-height: 80px;
-  padding: 0 20px;
-  font-weight: bold;
-}
-.checkButton{
-  font-size: 30px;
-  color: white;
-  float: right;
-  line-height: 80px;
-  margin-right: 40px;
-  cursor:pointer;
-  display: none;
-}
-.myCheckBox{
-  display: none;
-}
+footer div { line-height:1; }
+@media (min-width:769px) { footer div + div { margin-left: 5px; } }
 
-a:hover,a.active{
-  color: #f7c324;
-}
-
-.logo-img{
-    width: 40px;
-}
-
-@media (max-width:952px) {
-  label.logo{
-  font-size: 27px;
-  padding-left: 15px; 
-    
-  }
-  nav ul li a{
-    font-size: 16px;
-  }
-}
-
-@media (max-width:858px) {
-  .checkButton{
-    display: block;
-  }
-  ul{
+/* Mobile */
+@media (max-width:768px){
+  header nav ul {
+    flex-direction: column;
     position: fixed;
-    width: 100%;
-    height: 100vh;
-    /* background-color: pink; */
-    background-color: rgb(247, 229, 232);
-    top: 80px;
-    left: -100%;
-    text-align: center;
-    transition: all .5s;
+    top:62px; bottom:240px; left:-250px;
+    width:150px; padding:20px 17px;
+    background: var(--dark-pink-transparent);
+    border-top-right-radius:20px; border-bottom-right-radius:20px;
+    overflow-y:auto; transition:left 0.3s ease;
+    list-style:none;
   }
-  nav ul li{
-    display: block;
-    margin: 50px 0;
-    line-height: 10px;
-  }
-  nav ul li a{
-    font-size: 20px;
-    color: #000;
-  }
-  a:hover,a.active{
-    color: #e60064;
-    background-color: rgb(247, 229, 232);
-  }
- .myCheckBox:checked ~ ul{
-  left: 0;
- }
+  header nav ul.show { left:0; }
+  .menu-toggle { display:block; }
+  .slider { left:0; }
+  footer { flex-direction:column; line-height:1; }
 }
-/* image sliders css */
-* {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
-.mySlides {display: none;}
-img {vertical-align: middle;}
-
-/* Slideshow container */
-.slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-}
-
-/* Caption text */
-.text {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-  color: #f2f2f2;
-  font-size: 12px;
-  padding: 8px 12px;
-  position: absolute;
-  top: 0;
-}
-
-/* The dots/bullets/indicators */
-/* .dot {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-} */
-
-.active {
-  background-color: #717171;
-}
-
-/* Fading animation */
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
-}
-
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
-}
-
-  /* this is img Content css */
-.news-post img{
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-  /* footer css is here.. */
-.last-footer{
-    background: #2c3e50;
-    color: white;
-    padding: 15px 0;
-    
-}
-.social-icon{
-    list-style: none;
-    color: white;
-    margin: 0 ;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-}
-.social-icon li{
-   display: inline-block;
-   padding-left: 5px;
-}
-.social-icon li a{
-    color: white;
-    text-decoration: none;
-    font-size: 23px;
-}
-
-
 </style>
+</head>
 <body>
+
+<header>
+  <div class="branding">
+    <img src="logo-img4.png" alt="Logo">
+    <h1>Committee</h1>
+  </div>
   <nav>
-    <input type="checkbox" class="myCheckBox" id="myCheck">
-    <label for="myCheck" class="checkButton">
-      <i class="ri-menu-line"></i>
-    </label>
-    <label class="logo">Committee<img src="logo.png" alt="image" class="logo-img"></label>
-<ul> 
-  <li><a href="Dashboard.html" class="active">Dashboard</a></li>
-  <li><a href="MemberDetails.html" class="">Member Details</a></li>
-  <li><a href="Month2025.html">Monthly Installment 2025</a></li>
-  <li><a href="Month2026.html">Monthly Installment 2026</a></li>
-  <li><a href="paid money to member.html">Paid Money to Members</a></li>
-  <li><a href="Interest.html">Interest</a></li>
-  <li><a href="terms and conditions.html">Terms & Conditions</a></li>
-  <li><a href="Society.html">Logout</a></li>
-</ul>
-</nav>
-   <!-- image slider here.. -->
-<div class="slideshow-container">
+    <ul>
+      <li><a href="Dashboard.html" class="active"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+      <li><a href="MemberDetails.html" class="underline"><i class="fa-solid fa-users"></i> Users</a></li>
+      <li><a href="Month2025.html" class="underline"><i class="fa-solid fa-sack-dollar"></i> Year 2025</a></li>
+      <li><a href="Month2025.html" class="underline"><i class="fa-solid fa-money-bill-wave"></i> Year 2026</a></li>
+      <li><a href="paid money to member.html" class="underline"><i class="fa-solid fa-hand-holding-dollar"></i> Money Paid</a></li>
+      <li><a href="Interest.html" class="underline"><i class="fa-solid fa-percent"></i> Interest</a></li>
+      <li><a href="terms and conditions.html" class="underline"><i class="fa-solid fa-file-contract"></i> T&C</a></li>
+      <li><a href="Society.html" class="underline"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+    </ul>
+  </nav>
+  <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+</header>
 
-  <div class="mySlides fade">
-    <div class="numbertext">1 / 3</div>
-    <img src="https://media.istockphoto.com/id/1080808822/photo/indian-family-stock-images.jpg?s=612x612&w=0&k=20&c=fuC1cXA-CBuT3BGSIw9CNFg-3dFA6rNumRZExFGZdhs=" style="width:100%">
-    <div class="text"></div>
+<!-- Slider -->
+<section class="slider">
+  <div class="slides">
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184402/pexels-photo-3184402.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184302/pexels-photo-3184302.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184296/pexels-photo-3184296.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg')"></div>
+    <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184318/pexels-photo-3184318.jpeg')"></div>
   </div>
-  
-  <div class="mySlides fade">
-    <div class="numbertext">2 / 3</div>
-    <img src="https://media.istockphoto.com/id/1356984436/photo/stacking-of-coins-with-plants-growing-on-top-for-financial-and-business-background-savings.jpg?s=612x612&w=0&k=20&c=p4C4RUawEeau_AD4q7k26hliyeLaWFlowf0ChhaXsQI=" style="width:100%">
-    <div class="text"></div>
-  </div>
-  
-  <div class="mySlides fade">
-    <div class="numbertext">3 / 3</div>
-    <img src="content-img2.jpg" style="width:100%">
-    <div class="text"></div>
-  </div>
+</section>
 
-  
-  </div>
-<br>
-<div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-</div>
+<footer>
+  <div>Committee Started by</div>
+  <div>Raja Prajapati & Anuj Lodhi</div>
+</footer>
 
-<!--   Content image here  -->
-  <div class="new container section">
-  <div class="row">
-      <div class="col-md-12">
-      </div>
-      <div class="col-md-6 col-lg-3">
-          <div class="news-post">
-              <img src="https://media.istockphoto.com/id/647080714/photo/mature-couple-remote-banking-with-phone.jpg?s=612x612&w=0&k=20&c=WMzqUDZExP7PBF0kYatyQf-ou6jeWJKSDlLmmDW6sS0=" alt="">
-          </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-          <div class="news-post">
-              <img src="https://media.istockphoto.com/id/1280853878/photo/happy-family-saving-money-together.jpg?s=612x612&w=0&k=20&c=gqLSAkvVuw0EShuEFi_V0BTsA-OAQRfGBKiCA1leT_0=" alt="">
-          </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-          <div class="news-post">
-              <img src="https://media.istockphoto.com/id/1373240838/photo/positive-team-motivation.jpg?s=612x612&w=0&k=20&c=zyLDqvjxYDV0nhKf7laXUcOer5ZW-FH864I9k6LXgjI=" alt="">
-          </div>
-      </div>
-      <div class="col-md-6 col-lg-3">
-          <div class="news-post">
-              <img src="https://media.istockphoto.com/id/1361421117/photo/hiking-couple-climb-up-mountain-ridge.jpg?s=612x612&w=0&k=20&c=60TDv5tfyIpCroPMfxhTCUE3rnWmnf8JMCVnZYGyQaY=" alt="">
-          </div>
-      </div>
-  </div>
-  </div>
-  <!-- footer is here -->
-<div class="last-footer">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-12">
-              <ul class="social-icon float-md-right">
-                  <li><a href="https://www.facebook.com/" class="ri-facebook-circle-fill"></a></li>
-                  <li><a href="https://www.instagram.com/" class="ri-instagram-line"></a></li>
-                  <li><a href="https://www.google.com/" class="ri-google-fill"></a></li>
-              </ul>
-          </div>
-      </div>
-  </div>
-</div>
-  
-</body>
-  <!-- sliders js here.. -->
 <script>
-  let slideIndex = 0;
-  showSlides();
-  
-  function showSlides() {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    let dots = document.getElementsByClassName("dot");
-    for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";  
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}    
-    for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";  
-    dots[slideIndex-1].className += " active";
-    setTimeout(showSlides, 2000); // Change image every 2 seconds
-  }
-  </script>
-</html>
+const menuToggle = document.querySelector('.menu-toggle');
+const nav = document.querySelector('nav ul');
+menuToggle.addEventListener('click', ()=> nav.classList.toggle('show'));
+
+// Slider
+let currentSlide = 0;
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+function updateSlide(){
+  document.querySelector('.slides').style.transform=`translateX(-${currentSlide*100}%)`;
+}
+updateSlide();
+setInterval(()=>{
+  currentSlide=(currentSlide+1)%totalSlides;
+  updateSlide();
+},4000);
+</script>
+
+</body>
+  </html>
