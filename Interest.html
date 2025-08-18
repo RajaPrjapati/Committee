@@ -1,39 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interest</title>
-    <style>
-      
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
-        }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          /* border-bottom: 1px solid green; */
-          text-align: left;
-           /* padding: 8px;  */
-          font-size: small;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-        .tbl { border-collapse: collapse; width:300px; }
-        .tbl th, .tbl td { padding: 5px; border: solid 1px #777; }
-        .tbl th { background-color: lightblue; }
-        .tbl-separate { border-collapse: separate; border-spacing: 5px;}
-        
-        </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interest</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: white; /* White background */
+      margin: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #d6336c; /* Dark Pink Title */
+    }
+    a {
+      text-decoration: none;
+      color: #d6336c;
+    }
+    /* Search Box */
+    #searchBox {
+      margin: 15px auto;
+      display: block;
+      width: 60%;
+      max-width: 400px;
+      padding: 10px;
+      border: 2px solid #d6336c;
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    /* Table */
+    .table-container {
+      overflow-x: auto; /* Mobile scroll */
+      margin-top: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 6px;
+      font-size: small;
+    }
+    th {
+      background: #d6336c; /* Dark Pink Header */
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    tr:hover {
+      background: #ffe6f0; /* Light pink hover */
+    }
+    .left {
+      color: red;
+      font-weight: bold;
+    }
+    .total-row {
+      background: #d6336c;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2><a href="index.html">Interest</a></h2>
-    <table id="mytable" class="tbl">
-        <tr>
+  <h2><a href="index.html">💰 interest Details</a></h2>
+
+  <!-- Search Box -->
+  <input type="text" id="searchBox" placeholder="Search Member Name...">
+
+  <div class="table-container">
+    <table id="myTable">
+                        <tr>
           <th>S.N</th>
           <th>Member Name</th>
           <th> 10 January 2025</th>
@@ -229,16 +277,25 @@
           <td></td>
           <td></td>
             <td><b>17970</b></td>
-        </tr>
-        
-      </table>
+        </tr>                  
+    </table>
+  </div>
+
+  <script>
+    // Search Function
+    document.getElementById("searchBox").addEventListener("keyup", function() {
+      let filter = this.value.toLowerCase();
+      let rows = document.querySelectorAll("#myTable tr");
+
+      rows.forEach((row, index) => {
+        if (index === 0 || row.classList.contains("total-row")) return; // skip header & total row
+        let memberName = row.cells[1].textContent.toLowerCase();
+        row.style.display = memberName.includes(filter) ? "" : "none";
+      });
+    });
+  </script>
 </body>
-</html>
-
-
-
-
-
-
+  </html>
+  
 
 
