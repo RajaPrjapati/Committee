@@ -1,24 +1,135 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="styles.css">
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interest Summary</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .font {
-  font-size: 1.6em;
-}
-  </style>
-<body>
-<h1><a href="index.html">Dashboard.html</a></h1>
-<p class="font">
-17,970/- Total Interest  10 August tk <br>
--7,000/- Paid Mukesh kumar 10 May 2025 <br>
----------- <br>
- <b>10,970/-</b> Total Interest Balance 10 August tk <br>
-----------
-</p>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0;
+    }
 
+    .header {
+      background: linear-gradient(135deg, #ff4b7d, #ff6a95);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card .left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card i {
+      font-size: 20px;
+      color: #ff4b7d;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .value {
+      font-size: 16px;
+      font-weight: bold;
+      color: #ff4b7d;
+    }
+
+    .highlight {
+      font-size: 18px;
+      font-weight: bold;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Interest Summary</h1>
+    <p>Total summary till 10 August 2025</p>
+  </div>
+
+  <div class="container">
+    <!-- Total Interest -->
+    <div class="card">
+      <div class="left">
+        <i class="fas fa-percent"></i>
+        <div>
+          <h3>Total Interest</h3>
+          <p>10 August 2025</p>
+        </div>
+      </div>
+      <div class="value">17,970/-</div>
+    </div>
+
+    <!-- Paid -->
+    <div class="card">
+      <div class="left">
+        <i class="fas fa-user-check"></i>
+        <div>
+          <h3>Paid</h3>
+          <p>Mukesh Kumar - 10 May 2025</p>
+        </div>
+      </div>
+      <div class="value">-7,000/-</div>
+    </div>
+
+    <!-- Balance -->
+    <div class="card">
+      <div class="left">
+        <i class="fas fa-wallet"></i>
+        <div>
+          <h3>Total Interest Balance</h3>
+          <p>10 August 2025</p>
+        </div>
+      </div>
+      <div class="highlight">10,970/-</div>
+    </div>
+  </div>
 
 </body>
-</html>
-
+  </html>
