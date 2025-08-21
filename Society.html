@@ -6,14 +6,12 @@
   <title>Login</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       font-family: Arial, sans-serif;
     }
-
     body {
       background: #f8f8f8;
       display: flex;
@@ -21,8 +19,6 @@
       align-items: center;
       height: 100vh;
     }
-
-    /* Card */
     .login-container {
       background: #fff;
       width: 90%;
@@ -32,8 +28,6 @@
       box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
       text-align: center;
     }
-
-    /* Logo + Title */
     .logo {
       display: flex;
       align-items: center;
@@ -48,8 +42,6 @@
       color: #d6336c;
       font-size: 22px;
     }
-
-    /* Input fields */
     .input-group {
       position: relative;
       margin: 15px 0;
@@ -70,8 +62,6 @@
       color: #888;
       cursor: pointer;
     }
-
-    /* Button */
     .btn {
       width: 100%;
       padding: 12px;
@@ -87,35 +77,21 @@
     .btn:hover {
       background: #b82b5c;
     }
-
-    /* Footer */
     .footer {
       margin-top: 20px;
       font-size: 9px;
       color: #555;
-    }
-
-    /* Responsive */
-    @media (max-width: 480px) {
-      .login-container {
-        padding: 20px;
-      }
-      .logo h2 {
-        font-size: 20px;
-      }
     }
   </style>
 </head>
 <body>
 
   <div class="login-container">
-    <!-- Logo + Title -->
     <div class="logo">
-      <img src="logo-img.png">
+      <img src="logo-img.png" alt="Logo">
       <h2>Committee Login</h2>
     </div>
 
-    <!-- Form -->
     <form onsubmit="return validateLogin(event)">
       <div class="input-group">
         <input type="text" id="username" placeholder="Enter Username" required>
@@ -128,7 +104,6 @@
       <button class="btn" type="submit">Login</button>
     </form>
     
-    <!-- Footer -->
     <div class="footer">
       <p>ID your first name lowercase & Password same@123</p>
     </div>
@@ -142,8 +117,6 @@
     togglePassword.addEventListener("click", function () {
       const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
       passwordInput.setAttribute("type", type);
-
-      // Toggle eye / eye-slash icon
       this.classList.toggle("fa-eye");
       this.classList.toggle("fa-eye-slash");
     });
@@ -155,39 +128,38 @@
       let username = document.getElementById("username").value.trim().toLowerCase();
       let password = document.getElementById("password").value.trim();
 
-      // Allowed users and passwords
       const users = {
         "anuj": "anuj@123",
-"aasani": "aasani@123",
-"raj": "raj@123",
-"vijay": "vijay@123",
-"shiv": "shiv@123",
-"sarita": "sarita@123",
-"naval": "naval@123",
-"surendra": "surendra@123",
-"mukesh": "mukesh@123",
-"tileshar": "tileshar@123",
-"prabhu": "prabhu@123",
-"ajay": "ajay@123",
-"subham": "subham@123",
-"sudhir": "sudhir@123",
-"mahaveer": "mahaveer@123",
-"ravi": "ravi@123",
-"roshan": "roshan@123",
-"sonu": "sonu@123",
-"raja": "raja@123",
-"annu": "annu@123",
-"kittu": "kittu@123",
-"muskan": "muskan@123",
-"aniket": "aniket@123",
-"sweta": "sweta@123",
-"bharat": "bharat@123"
+        "aasani": "aasani@123",
+        "raj": "raj@123",
+        "vijay": "vijay@123",
+        "shiv": "shiv@123",
+        "sarita": "sarita@123",
+        "naval": "naval@123",
+        "surendra": "surendra@123",
+        "mukesh": "mukesh@123",
+        "tileshar": "tileshar@123",
+        "prabhu": "prabhu@123",
+        "ajay": "ajay@123",
+        "subham": "subham@123",
+        "sudhir": "sudhir@123",
+        "mahaveer": "mahaveer@123",
+        "ravi": "ravi@123",
+        "roshan": "roshan@123",
+        "sonu": "sonu@123",
+        "raja": "raja@123",
+        "annu": "annu@123",
+        "kittu": "kittu@123",
+        "muskan": "muskan@123",
+        "aniket": "aniket@123",
+        "sweta": "sweta@123",
+        "bharat": "bharat@123"
       };
 
       if (users[username] && users[username] === password) {
+        localStorage.setItem("isLoggedIn", "true");
         alert("Login Successful! Welcome " + username.charAt(0).toUpperCase() + username.slice(1));
-        // Redirect after login
-        window.location.href = "index.html"; // change this to your home page
+        window.location.href = "index.html";
       } else {
         alert("Invalid Username or Password!");
       }
@@ -196,6 +168,3 @@
 
 </body>
 </html>
-
-
-
