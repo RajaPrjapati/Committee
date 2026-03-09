@@ -191,6 +191,13 @@ cursor:pointer;
 border-radius:5px;
 }
 
+#errorMsg{
+color:red;
+margin-top:8px;
+display:none;
+font-size:14px;
+}
+
 /* Mobile */
 
 @media(max-width:768px){
@@ -231,7 +238,6 @@ display:block;
 </div>
 
 <nav>
-
 <ul>
 
 <li>
@@ -283,7 +289,6 @@ display:block;
 </li>
 
 </ul>
-
 </nav>
 
 <div class="menu-toggle">
@@ -297,8 +302,11 @@ display:block;
 <div class="slides">
 
 <div class="slide" style="background-image:url('https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg')"></div>
+
 <div class="slide" style="background-image:url('https://images.pexels.com/photos/3183197/pexels-photo-3183197.jpeg')"></div>
+
 <div class="slide" style="background-image:url('https://images.pexels.com/photos/3184360/pexels-photo-3184360.jpeg')"></div>
+
 <div class="slide" style="background-image:url('https://images.pexels.com/photos/1181355/pexels-photo-1181355.jpeg')"></div>
 
 </div>
@@ -321,6 +329,8 @@ Committee Started by Raja Prajapati & Anuj Lodhi
 
 <button onclick="checkUser()">Enter</button>
 
+<p id="errorMsg">Wrong Password</p>
+
 </div>
 
 </div>
@@ -339,21 +349,17 @@ nav.classList.toggle('show');
 let targetPage="";
 
 function openDashboard(){
-
 targetPage="Dashboard.html";
-
-document.getElementById("username").value=""; // clear
+document.getElementById("username").value="";
+document.getElementById("errorMsg").style.display="none";
 document.getElementById("namePopup").style.display="flex";
-
 }
 
 function openInterest(){
-
 targetPage="Interest.html";
-
-document.getElementById("username").value=""; // clear
+document.getElementById("username").value="";
+document.getElementById("errorMsg").style.display="none";
 document.getElementById("namePopup").style.display="flex";
-
 }
 
 function checkUser(){
@@ -367,13 +373,11 @@ window.location.href=targetPage;
 
 }else{
 
-alert("Access Denied");
+document.getElementById("errorMsg").style.display="block";
 
 }
 
-document.getElementById("namePopup").style.display="none";
-
-input.value=""; // clear password
+input.value="";
 
 }
 
@@ -390,16 +394,23 @@ checkUser();
 /* slider */
 
 let currentSlide=0;
+
 const slides=document.querySelectorAll('.slide');
+
 const totalSlides=slides.length;
 
 function updateSlide(){
+
 document.querySelector('.slides').style.transform=`translateX(-${currentSlide*100}%)`;
+
 }
 
 setInterval(()=>{
+
 currentSlide=(currentSlide+1)%totalSlides;
+
 updateSlide();
+
 },10000);
 
 </script>
