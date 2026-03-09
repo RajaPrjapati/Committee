@@ -104,11 +104,6 @@ nav a:hover{
 color:#ffd6e0;
 }
 
-nav a.active{
-background:#fff;
-color:var(--dark-pink);
-}
-
 .menu-toggle{
 display:none;
 font-size:24px;
@@ -125,7 +120,6 @@ bottom:60px;
 left:0;
 right:0;
 overflow:hidden;
-z-index:0;
 }
 
 .slides{
@@ -153,11 +147,8 @@ color:#fff;
 display:flex;
 justify-content:center;
 align-items:center;
-padding:10px 0;
 height:60px;
 font-weight:bold;
-text-align:center;
-z-index:1000;
 white-space:nowrap;
 }
 
@@ -181,7 +172,7 @@ background:#fff;
 padding:20px;
 border-radius:8px;
 text-align:center;
-width:250px;
+width:260px;
 }
 
 .popup-box input{
@@ -318,7 +309,7 @@ display:block;
 Committee Started by Raja Prajapati & Anuj Lodhi
 </footer>
 
-<!-- Custom Popup -->
+<!-- Password Popup -->
 
 <div class="popup" id="namePopup">
 
@@ -326,7 +317,7 @@ Committee Started by Raja Prajapati & Anuj Lodhi
 
 <h3>Password</h3>
 
-<input type="text" id="username" placeholder="Enter your Password">
+<input type="password" id="username" placeholder="Enter your Password">
 
 <button onclick="checkUser()">Enter</button>
 
@@ -343,38 +334,62 @@ menuToggle.addEventListener('click',()=>{
 nav.classList.toggle('show');
 });
 
-/* Custom Login */
+/* login system */
 
 let targetPage="";
 
 function openDashboard(){
+
 targetPage="Dashboard.html";
+
+document.getElementById("username").value=""; // clear
 document.getElementById("namePopup").style.display="flex";
+
 }
 
 function openInterest(){
+
 targetPage="Interest.html";
+
+document.getElementById("username").value=""; // clear
 document.getElementById("namePopup").style.display="flex";
+
 }
 
 function checkUser(){
 
-let user=document.getElementById("username").value;
+let input=document.getElementById("username");
+let user=input.value;
 
 if(user==="raja@123admin" || user==="anuj@123admin"){
+
 window.location.href=targetPage;
+
 }else{
+
 alert("Access Denied");
+
 }
 
 document.getElementById("namePopup").style.display="none";
 
+input.value=""; // clear password
+
 }
+
+/* Enter key login */
+
+document.getElementById("username").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+checkUser();
+}
+
+});
 
 /* slider */
 
 let currentSlide=0;
-
 const slides=document.querySelectorAll('.slide');
 const totalSlides=slides.length;
 
@@ -391,6 +406,3 @@ updateSlide();
 
 </body>
 </html>
-
-
-
