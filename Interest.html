@@ -629,7 +629,7 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
   doc.autoTable({
     head: [head],
     body: body,
-    startY: 60,
+    startY: 40,
 
     theme: "grid",
 
@@ -655,7 +655,7 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
     horizontalPageBreak: true,
     horizontalPageBreakRepeat: [0, 1], // repeat SN & Name
 
-    margin: { top: 60, left: 30, right: 30 },
+    margin: { top: 40, left: 20, right: 20, bottom: 10 },
 
     didDrawPage: () => {
       let today = new Date();
