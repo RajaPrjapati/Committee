@@ -542,91 +542,120 @@
   </div>
 
   <script>
-    // Search Function
-    document.getElementById("searchBox").addEventListener("keyup", function() {
-      let filter = this.value.toLowerCase();
-      let rows = document.querySelectorAll("#myTable tr");
-      rows.forEach((row, index) => {
-        if (index === 0 || row.classList.contains("total-row")) return;
-        let memberName = row.cells[1].textContent.toLowerCase();
-        row.style.display = memberName.includes(filter) ? "" : "none";
-      });
+  // Search Function (same)
+  document.getElementById("searchBox").addEventListener("keyup", function() {
+    let filter = this.value.toLowerCase();
+    let rows = document.querySelectorAll("#myTable tr");
+    rows.forEach((row, index) => {
+      if (index === 0 || row.classList.contains("total-row")) return;
+      let memberName = row.cells[1].textContent.toLowerCase();
+      row.style.display = memberName.includes(filter) ? "" : "none";
+    });
+  });
+
+  // ✅ FIXED PDF Download Function
+  document.getElementById("downloadBtn").addEventListener("click", () => {
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF({
+      orientation: "landscape",
+      unit: "mm",
+      format: "a4"
     });
 
-    // PDF Download Function (Improved)
-    document.getElementById("downloadBtn").addEventListener("click", () => {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF("landscape");
+    // Title
+    doc.setFontSize(16);
+    doc.setTextColor(214, 51, 108);
+    doc.text("Deposited Monthly Amount - Year 2026", 14, 12);
 
-      // Title
-      doc.setFontSize(18);
-      doc.setTextColor(214, 51, 108);
-      doc.text(" Deposited Monthly Amount - Year 2026", 14, 20);
+    let table = document.getElementById("myTable");
+    let head = [];
+    let body = [];
 
-      // Extract data
-      let table = document.getElementById("myTable");
-      let head = [];
-      let body = [];
+    // Header
+    let headerCells = table.rows[0].cells;
+    for (let i = 0; i < headerCells.length; i++) {
+      head.push(headerCells[i].innerText);
+    }
 
-      // Header
-      let headerCells = table.rows[0].cells;
-      for (let i = 0; i < headerCells.length; i++) {
-        head.push(headerCells[i].innerText);
-      }
+    // Body
+    for (let i = 1; i < table.rows.length; i++) {
+      let row = [];
+      let cells = table.rows[i].cells;
 
-      // Rows
-      for (let i = 1; i < table.rows.length; i++) {
-        let row = [];
-        let cells = table.rows[i].cells;
-        for (let j = 0; j < cells.length; j++) {
-          let val = cells[j].innerText;
-          // Mark "Left" red in PDF
-          if (val === "Left") {
-            row.push({ content: val, styles: { textColor: [200, 0, 0], fontStyle: 'bold' } });
-          } else {
-            row.push(val);
-          }
+      for (let j = 0; j < cells.length; j++) {
+        let val = cells[j].innerText.trim();
+
+        if (val === "Left") {
+          row.push({
+            content: val,
+            styles: { textColor: [255, 0, 0], fontStyle: "bold" }
+          });
+        } else {
+          row.push(val);
         }
-        body.push(row);
       }
+      body.push(row);
+    }
 
-      // AutoTable
-      doc.autoTable({
-        head: [head],
-        body: body,
-        startY: 30,
-        theme: "grid",
-        headStyles: {
-          fillColor: [214, 51, 108],
-          textColor: 255,
-          fontSize: 10,
-          halign: "center"
-        },
-        bodyStyles: {
-          fontSize: 9,
-          halign: "center"
-        },
-        columnStyles: {
-          0: { cellWidth: 12 },   // S.N small
-          1: { cellWidth: 40 },   // Name wider
-        },
-        styles: { cellPadding: 3 },
-        didDrawPage: (data) => {
-          let today = new Date();
-          let dateStr = today.toLocaleDateString();
-          let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-          doc.setFontSize(8);
-          doc.text(`Generated on: ${dateStr} ${timeStr}`, 14, doc.internal.pageSize.height - 5);
-        }
-      });
+    // AutoTable (FIXED SETTINGS)
+    doc.autoTable({
+      head: [head],
+      body: body,
 
-      // Save
-      let today = new Date();
-      let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      let fileName = `Deposited_Amount_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
-      doc.save(fileName);
+      startY: 16, // 🔥 less top space
+      margin: { top: 16, bottom: 10, left: 6, right: 6 }, // 🔥 less bottom space
+
+      theme: "grid",
+
+      styles: {
+        fontSize: 7, // 🔥 smaller = fit better
+        cellPadding: 1.5,
+        overflow: "linebreak",
+        halign: "center"
+      },
+
+      headStyles: {
+        fillColor: [214, 51, 108],
+        textColor: 255,
+        fontSize: 8
+      },
+
+      columnStyles: {
+        0: { cellWidth: 10 }, // S.N
+        1: { cellWidth: 35 }  // Name
+      },
+
+      tableWidth: "auto", // 🔥 auto fit
+      pageBreak: "auto",
+
+      didDrawPage: function (data) {
+        let pageSize = doc.internal.pageSize;
+        let pageHeight = pageSize.height;
+
+        doc.setFontSize(7);
+        doc.setTextColor(100);
+
+        let today = new Date();
+        let dateStr = today.toLocaleDateString();
+        let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+        // Footer tight bottom
+        doc.text(
+          `Generated: ${dateStr} ${timeStr}`,
+          6,
+          pageHeight - 4
+        );
+      }
     });
-  </script>
+
+    // Save
+    let today = new Date();
+    let fileName = `Deposited_Amount_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}.pdf`;
+
+    doc.save(fileName);
+  });
+</script>
 </body>
 </html>
 
