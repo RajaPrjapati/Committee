@@ -588,90 +588,92 @@
   </div>
 
   <script>
-    // Search Function
-    document.getElementById("searchBox").addEventListener("keyup", function() {
-      let filter = this.value.toLowerCase();
-      let rows = document.querySelectorAll("#myTable tr");
-      rows.forEach((row, index) => {
-        if (index === 0 || row.classList.contains("total-row")) return;
-        let memberName = row.cells[1].textContent.toLowerCase();
-        row.style.display = memberName.includes(filter) ? "" : "none";
-      });
-    });
+    // PDF Download Function (Fixed Properly)
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
 
-    // PDF Download Function (Improved)
-    document.getElementById("downloadBtn").addEventListener("click", () => {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF("landscape");
+  // Landscape + bigger page (A3 for wide table)
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "pt",
+    format: "a3"
+  });
 
-      // Title
-      doc.setFontSize(18);
-      doc.setTextColor(214, 51, 108);
-      doc.text(" Deposited Monthly Interest - 10 January 2025 to 10 March 2026 ", 14, 20);
+  // Title
+  doc.setFontSize(16);
+  doc.setTextColor(214, 51, 108);
+  doc.text("Deposited Monthly Interest - 10 January 2025 to 10 March 2026", 40, 40);
 
-      // Extract data
-      let table = document.getElementById("myTable");
-      let head = [];
-      let body = [];
+  let table = document.getElementById("myTable");
 
-      // Header
-      let headerCells = table.rows[0].cells;
-      for (let i = 0; i < headerCells.length; i++) {
-        head.push(headerCells[i].innerText);
-      }
+  let head = [];
+  let body = [];
 
-      // Rows
-      for (let i = 1; i < table.rows.length; i++) {
-        let row = [];
-        let cells = table.rows[i].cells;
-        for (let j = 0; j < cells.length; j++) {
-          let val = cells[j].innerText;
-          // Mark "Left" red in PDF
-          if (val === "Left") {
-            row.push({ content: val, styles: { textColor: [200, 0, 0], fontStyle: 'bold' } });
-          } else {
-            row.push(val);
-          }
-        }
-        body.push(row);
-      }
+  // Header
+  let headerCells = table.rows[0].cells;
+  for (let i = 0; i < headerCells.length; i++) {
+    head.push(headerCells[i].innerText);
+  }
 
-      // AutoTable
-      doc.autoTable({
-        head: [head],
-        body: body,
-        startY: 30,
-        theme: "grid",
-        headStyles: {
-          fillColor: [214, 51, 108],
-          textColor: 255,
-          fontSize: 10,
-          halign: "center"
-        },
-        bodyStyles: {
-          fontSize: 9,
-          halign: "center"
-        },
-        columnStyles: {
-          0: { cellWidth: 12 },   // S.N small
-          1: { cellWidth: 40 },   // Name wider
-        },
-        styles: { cellPadding: 3 },
-        didDrawPage: (data) => {
-          let today = new Date();
-          let dateStr = today.toLocaleDateString();
-          let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-          doc.setFontSize(8);
-          doc.text(`Generated on: ${dateStr} ${timeStr}`, 14, doc.internal.pageSize.height - 5);
-        }
-      });
+  // Rows
+  for (let i = 1; i < table.rows.length; i++) {
+    let row = [];
+    let cells = table.rows[i].cells;
 
-      // Save
+    for (let j = 0; j < cells.length; j++) {
+      row.push(cells[j].innerText);
+    }
+    body.push(row);
+  }
+
+  doc.autoTable({
+    head: [head],
+    body: body,
+    startY: 60,
+
+    theme: "grid",
+
+    styles: {
+      fontSize: 7,              // smaller text
+      cellPadding: 2,
+      halign: "center",
+      overflow: "linebreak"
+    },
+
+    headStyles: {
+      fillColor: [214, 51, 108],
+      textColor: 255,
+      fontSize: 8
+    },
+
+    columnStyles: {
+      0: { cellWidth: 40 },   // S.N
+      1: { cellWidth: 120 },  // Name
+    },
+
+    // THIS IS MAIN FIX 👇
+    horizontalPageBreak: true,
+    horizontalPageBreakRepeat: [0, 1], // repeat SN & Name
+
+    margin: { top: 60, left: 30, right: 30 },
+
+    didDrawPage: () => {
       let today = new Date();
-      let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      let fileName = `Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
-      doc.save(fileName);
-    });
+      let dateStr = today.toLocaleDateString();
+      let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      doc.setFontSize(8);
+      doc.text(`Generated on: ${dateStr} ${timeStr}`, 40, doc.internal.pageSize.height - 20);
+    }
+  });
+
+  // Save
+  let today = new Date();
+  let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  let fileName = `Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
+
+  doc.save(fileName);
+});
   </script>
 </body>
 </html>
