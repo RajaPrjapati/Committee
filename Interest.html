@@ -588,11 +588,11 @@
   </div>
 
   <script>
-    // PDF Download Function (Fixed Properly)
+    // PDF Download Function (Final Fixed)
 document.getElementById("downloadBtn").addEventListener("click", () => {
   const { jsPDF } = window.jspdf;
 
-  // Landscape + bigger page (A3 for wide table)
+  // A3 Landscape for wide table
   const doc = new jsPDF({
     orientation: "landscape",
     unit: "pt",
@@ -602,7 +602,7 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
   // Title
   doc.setFontSize(16);
   doc.setTextColor(214, 51, 108);
-  doc.text("Deposited Monthly Interest - 10 January 2025 to 10 March 2026", 40, 40);
+  doc.text("Deposited Monthly Interest - 10 January 2025 to 10 March 2026", 20, 30);
 
   let table = document.getElementById("myTable");
 
@@ -629,12 +629,14 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
   doc.autoTable({
     head: [head],
     body: body,
-    startY: 60,
+
+    // 🔥 Top se start (kam gap)
+    startY: 45,
 
     theme: "grid",
 
     styles: {
-      fontSize: 7,              // smaller text
+      fontSize: 7,
       cellPadding: 2,
       halign: "center",
       overflow: "linebreak"
@@ -651,11 +653,12 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
       1: { cellWidth: 120 },  // Name
     },
 
-    // THIS IS MAIN FIX 👇
+    // 🔥 Wide table fix
     horizontalPageBreak: true,
-    horizontalPageBreakRepeat: [0, 1], // repeat SN & Name
+    horizontalPageBreakRepeat: [0, 1],
 
-    margin: { top: 60, left: 30, right: 30 },
+    // 🔥 Margin optimized (BOTTOM SPACE FIX)
+    margin: { top: 45, left: 20, right: 20, bottom: 10 },
 
     didDrawPage: () => {
       let today = new Date();
@@ -663,13 +666,16 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
       let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
       doc.setFontSize(8);
-      doc.text(`Generated on: ${dateStr} ${timeStr}`, 40, doc.internal.pageSize.height - 20);
+
+      // 🔥 Footer bilkul bottom pe
+      doc.text(`Generated on: ${dateStr} ${timeStr}`, 20, doc.internal.pageSize.height - 8);
     }
   });
 
-  // Save
+  // Save file
   let today = new Date();
   let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
   let fileName = `Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
 
   doc.save(fileName);
