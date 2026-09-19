@@ -70,28 +70,27 @@
     const rawName = urlParams.get("name");
 
     if (rawName) {
-      // Spaces, 'Mr.', 'Ms.' aur extra case sensitive characters cleanup
-      const cleanSearchName = rawName.toLowerCase().replace(/mr\.|ms\./g, "").trim();
+      // Name me se "Mr.", "Ms." aur extra spaces clean karna
+      const searchName = rawName.toLowerCase().replace(/mr\.|ms\./g, "").trim();
       const rows = document.querySelectorAll("#mytable tr");
       let matchedRows = [];
 
       rows.forEach((row, index) => {
-        if (index === 0) return; // Header row skip karein
+        if (index === 0) return; // Header skip
         const rowText = row.textContent.toLowerCase();
-        
-        // Exact name match check
-        if (rowText.includes(cleanSearchName)) {
+        if (rowText.includes(searchName)) {
           matchedRows.push(row);
         }
       });
 
-      if (matchedRows.length > 0) {
-        const container = document.querySelector(".table-container");
-        const searchBox = document.querySelector(".search-container");
-        if (searchBox) searchBox.style.display = "none"; // Search bar hide karein
+      const container = document.querySelector(".table-container");
+      const searchBox = document.querySelector(".search-container");
+      if (searchBox) searchBox.style.display = "none"; // Search bar hide
 
-        let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
-        
+      let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
+
+      // Case 1: Agar member ka paid money data mila
+      if (matchedRows.length > 0) {
         matchedRows.forEach(row => {
           const cells = row.children;
           cardsHTML += `
@@ -106,15 +105,24 @@
             </div>
           `;
         });
-
+      } else {
+        // Case 2: Jinka status NP hai ya payment list me name nahi hai
         cardsHTML += `
-          <div style="text-align: center; margin-top: 15px;">
-            <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
+          <div style="background: #fff; padding: 20px; text-align: center; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #dc3545;">
+            <h3 style="margin: 0 0 10px 0; color: #dc3545;">No Payment Record</h3>
+            <p style="margin: 10px 0; font-size: 16px;"><strong>Member Name :</strong> ${rawName}</p>
+            <p style="color: #6c757d; margin-top: 5px;">Iss member ke liye abhi koi paid money detail available nahi hai (Status: NP).</p>
           </div>
-        </div>`;
-
-        container.innerHTML = cardsHTML;
+        `;
       }
+
+      cardsHTML += `
+        <div style="text-align: center; margin-top: 20px;">
+          <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
+        </div>
+      </div>`;
+
+      container.innerHTML = cardsHTML;
     }
   });
 </script>
