@@ -850,15 +850,17 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
       doc.setFontSize(8);
 
       // 🔥 Footer bilkul bottom pe
-      doc.text(Generated on: ${dateStr} ${timeStr}, 20, doc.internal.pageSize.height - 8);
+      doc.text(`Generated on: ${dateStr} ${timeStr}`, 20, doc.internal.pageSize.height - 8);
     }
   });
+
+ 
 
   // Save file
   let today = new Date();
   let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  let fileName = Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf;
+  let fileName = `Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
 
   doc.save(fileName);
 });
