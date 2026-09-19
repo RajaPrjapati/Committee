@@ -87,7 +87,7 @@
       const searchBox = document.querySelector(".search-container");
       if (searchBox) searchBox.style.display = "none"; // Search bar hide
 
-      let cardsHTML = <div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">;
+      let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
 
       // Case 1: Agar member ka paid money data mila
       if (matchedRows.length > 0) {
@@ -111,7 +111,7 @@
           <div style="background: #fff; padding: 20px; text-align: center; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #dc3545;">
             <h3 style="margin: 0 0 10px 0; color: #dc3545;">No Payment Record</h3>
             <p style="margin: 10px 0; font-size: 16px;"><strong>Member Name :</strong> ${rawName}</p>
-            <p style="color: #6c757d; margin-top: 5px;">Payment Not Paid Yet Status is Not Paid</p>
+            <p style="color: #6c757d; margin-top: 5px;">Iss member ke liye abhi koi paid money detail available nahi hai (Status: NP).</p>
           </div>
         `;
       }
