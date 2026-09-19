@@ -335,17 +335,53 @@
   </div>
 
   <script>
-    document.getElementById("searchInput").addEventListener("keyup", function() {
-      let filter = this.value.toLowerCase();
-      let rows = document.querySelectorAll("#mytable tr");
+  window.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const memberName = urlParams.get("name");
 
+    if (memberName) {
+      const rows = document.querySelectorAll("#mytable tr");
+      let matchedRow = null;
+
+      // Table ki rows me se specific member name search karna
       rows.forEach((row, index) => {
-        if (index === 0) return; // skip header
-        let text = row.textContent.toLowerCase();
-        row.style.display = text.includes(filter) ? "" : "none";
+        if (index === 0) return; // Header skip karein
+        const text = row.textContent.toLowerCase();
+        if (text.includes(memberName.toLowerCase().trim())) {
+          matchedRow = row;
+        }
       });
-    });
-  </script>
+
+      // Agar member mil jata hai, to poori table ki jagah sirf single card format dikhana
+      if (matchedRow) {
+        const cells = matchedRow.children;
+        const sn = cells[0]?.textContent || "";
+        const name = cells[1]?.textContent || memberName;
+        const amount = cells[2]?.textContent || "-";
+        const rate = cells[3]?.textContent || "-";
+        const interest = cells[4]?.textContent || "-";
+        const date = cells[5]?.textContent || "-";
+
+        // Main table container ko replace karna
+        const container = document.querySelector(".table-container") || document.body;
+        container.innerHTML = `
+          <div style="max-width: 450px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-family: Arial, sans-serif;">
+            <h3 style="margin-top:0; color: #d6336c; text-align: center; border-bottom: 2px solid #ffccd5; padding-bottom: 10px;">Member Detail</h3>
+            <p><strong>S.N :</strong> ${sn}</p>
+            <p><strong>Member Name :</strong> ${name}</p>
+            <p><strong>Amount :</strong> ${amount}</p>
+            <p><strong>Interest Rate :</strong> ${rate}</p>
+            <p><strong>Interest :</strong> ${interest}</p>
+            <p><strong>Issue Date :</strong> ${date}</p>
+            <div style="text-align: center; margin-top: 20px;">
+              <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: bold;">← Back to Members</a>
+            </div>
+          </div>
+        `;
+      }
+    }
+  });
+</script>
 
 </body>
 </html>
