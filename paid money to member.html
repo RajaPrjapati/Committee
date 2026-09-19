@@ -65,57 +65,58 @@
   </div>
 
   <script>
-    window.addEventListener("DOMContentLoaded", function () {
-      const urlParams = new URLSearchParams(window.location.search);
-      const rawName = urlParams.get("name");
+  window.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const rawName = urlParams.get("name");
 
-      if (rawName) {
-        const searchName = rawName.toLowerCase().trim();
-        const rows = document.querySelectorAll("#mytable tr");
-        let matchedRows = [];
+    if (rawName) {
+      // Spaces, 'Mr.', 'Ms.' aur extra case sensitive characters cleanup
+      const cleanSearchName = rawName.toLowerCase().replace(/mr\.|ms\./g, "").trim();
+      const rows = document.querySelectorAll("#mytable tr");
+      let matchedRows = [];
 
-        // Matching rows collect karna
-        rows.forEach((row, index) => {
-          if (index === 0) return;
-          const text = row.textContent.toLowerCase();
-          if (text.includes(searchName)) {
-            matchedRows.push(row);
-          }
+      rows.forEach((row, index) => {
+        if (index === 0) return; // Header row skip karein
+        const rowText = row.textContent.toLowerCase();
+        
+        // Exact name match check
+        if (rowText.includes(cleanSearchName)) {
+          matchedRows.push(row);
+        }
+      });
+
+      if (matchedRows.length > 0) {
+        const container = document.querySelector(".table-container");
+        const searchBox = document.querySelector(".search-container");
+        if (searchBox) searchBox.style.display = "none"; // Search bar hide karein
+
+        let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
+        
+        matchedRows.forEach(row => {
+          const cells = row.children;
+          cardsHTML += `
+            <div style="background: #fff; padding: 18px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #d6336c;">
+              <h3 style="margin: 0 0 10px 0; color: #d6336c; border-bottom: 1px solid #eee; padding-bottom: 6px;">Member Details</h3>
+              <p style="margin: 5px 0;"><strong>S.N :</strong> ${cells[0]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Member Name :</strong> ${cells[1]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Amount :</strong> ${cells[2]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Interest Rate :</strong> ${cells[3]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Interest :</strong> ${cells[4]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Issue Date :</strong> ${cells[5]?.textContent.trim() || '-'}</p>
+            </div>
+          `;
         });
 
-        if (matchedRows.length > 0) {
-          // Visual content container replace karna
-          const container = document.querySelector(".table-container");
-          const searchBox = document.querySelector(".search-container");
-          if (searchBox) searchBox.style.display = "none"; // Search bar hide karna
+        cardsHTML += `
+          <div style="text-align: center; margin-top: 15px;">
+            <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
+          </div>
+        </div>`;
 
-          let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
-          
-          matchedRows.forEach(row => {
-            const cells = row.children;
-            cardsHTML += `
-              <div style="background: #fff; padding: 18px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #d6336c;">
-                <h3 style="margin: 0 0 10px 0; color: #d6336c; border-bottom: 1px solid #eee; padding-bottom: 6px;">Member Details</h3>
-                <p style="margin: 5px 0;"><strong>S.N :</strong> ${cells[0]?.textContent.trim() || '-'}</p>
-                <p style="margin: 5px 0;"><strong>Member Name :</strong> ${cells[1]?.textContent.trim() || '-'}</p>
-                <p style="margin: 5px 0;"><strong>Amount :</strong> ${cells[2]?.textContent.trim() || '-'}</p>
-                <p style="margin: 5px 0;"><strong>Interest Rate :</strong> ${cells[3]?.textContent.trim() || '-'}</p>
-                <p style="margin: 5px 0;"><strong>Interest :</strong> ${cells[4]?.textContent.trim() || '-'}</p>
-                <p style="margin: 5px 0;"><strong>Issue Date :</strong> ${cells[5]?.textContent.trim() || '-'}</p>
-              </div>
-            `;
-          });
-
-          cardsHTML += `
-            <div style="text-align: center; margin-top: 15px;">
-              <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
-            </div>
-          </div>`;
-
-          container.innerHTML = cardsHTML;
-        }
+        container.innerHTML = cardsHTML;
       }
-    });
-  </script>
+    }
+  });
+</script>
 </body>
 </html>
