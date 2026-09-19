@@ -5,399 +5,117 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paid Money</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
-      margin: 0;
-      padding: 0;
-    }
-
-    h2 {
-      background: #d6336c;
-      color: white;
-      padding: 12px;
-      margin: 0;
-      text-align: center;
-      font-size: 1.4rem;
-    }
-
-    h2 a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .search-container {
-      padding: 10px;
-      text-align: center;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .search-container input {
-      width: 90%;
-      max-width: 400px;
-      padding: 8px 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    table {
-      font-family: Arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 10px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      text-align: left;
-      padding: 8px;
-      font-size: 14px;
-    }
-
-    th {
-      background: #ffccd5;
-      color: #333;
-    }
-
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #ffe5ec;
-      transition: 0.2s;
-    }
-
-    .paid {
-      color: green;
-      font-weight: bold;
-    }
-
-    .left {
-      color: #000000;
-    }
-
-    /* Responsive Table */
-    .table-container {
-      overflow-x: auto;
-      margin: 10px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Fix for total row background */
-    .total-row th, 
-    .total-row td {
-      background: #ffccd5 !important;
-      font-weight: bold;
-    }
-
+    body { font-family: Arial, sans-serif; background: #f8f9fa; margin: 0; padding: 0; }
+    h2 { background: #d6336c; color: white; padding: 12px; margin: 0; text-align: center; font-size: 1.4rem; }
+    h2 a { color: white; text-decoration: none; }
+    .search-container { padding: 10px; text-align: center; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .search-container input { width: 90%; max-width: 400px; padding: 8px 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+    table { font-family: Arial, sans-serif; border-collapse: collapse; width: 100%; margin-top: 10px; }
+    th, td { border: 1px solid #ddd; text-align: left; padding: 8px; font-size: 14px; }
+    th { background: #ffccd5; color: #333; }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #ffe5ec; transition: 0.2s; }
+    .table-container { overflow-x: auto; margin: 10px; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
     @media (max-width: 600px) {
-      h2 {
-        font-size: 1.1rem;
-        padding: 10px;
-      }
-
-      th, td {
-        font-size: 12px;
-        padding: 6px;
-      }
-
-      .search-container input {
-        width: 100%;
-      }
+      h2 { font-size: 1.1rem; padding: 10px; }
+      th, td { font-size: 12px; padding: 6px; }
+      .search-container input { width: 100%; }
     }
   </style>
 </head>
 <body>
-
   <h2><a href="index.html">🫴💵 Paid Money to Members</a></h2>
-
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search by name">
   </div>
-
   <div class="table-container">
     <table id="mytable" class="tbl">
       <tr>
         <th>S.N</th>
-    <th>Member Name</th>
-    <th>Amount</th>
-    <th>Interest Rate</th>
-    <th>Interest</th>
-    <th>Issue Date</th>
+        <th>Member Name</th>
+        <th>Amount</th>
+        <th>Interest Rate</th>
+        <th>Interest</th>
+        <th>Issue Date</th>
       </tr>
-
-      <tr>
-        <td>1.</td>
-        <td>Anuj Lodhi</td>
-    <td>50,000/-</td>
-    <td>1%</td>
-    <td>500</td>
-    <td>10 December 2024</td>
-      </tr>
-      <tr>
-        <td>2.</td>
-        <td>Raja Prajapati</td>
-    <td>50,000/-</td>
-    <td>1%</td>
-    <td>500</td>
-    <td>10 January 2025</td>
-      </tr>
-      <tr>
-        <td>3.</td>
-        <td>Shiv Prakash</td>
-    <td>50,000/-</td>
-    <td>1%</td>
-    <td>500</td>
-    <td>10 February 2025</td>
-      </tr>
-      <tr>
-        <td>4.</td>
-        <td>Subham Kumar</td>
-    <td>50,000/-</td>
-    <td>1%</td>
-    <td>500</td>
-    <td>10 March 2025</td>
-      </tr>
-      <tr>
-        <td>5.</td>
-        <td>Annu Kumari</td>
-    <td>50,000/-</td>
-    <td>1%</td>
-    <td>500</td>
-    <td>10 April 2025</td>
-      </tr>
-      <tr class="left">
-        <td>6.</td>
-        <td>Aniket kumar</td>
-    <td>46,000/-</td>
-    <td>1%</td>
-    <td>460</td>
-    <td>10 May 2025</td>
-      </tr>
-      <tr>
-        <td>6.</td>
-    <td>Mukesh kumar</td>
-    <td>7,000/-<span style="color:green;"><b>Interest Amount</b></span></td>
-    <td>1%</td>
-    <td>70</td>
-    <td>10 May 2025</td>
-      </tr>
-      <tr>
-        <td>7.</td>
-        <td>Tileshar kumar</td>
-    <td>46,000/-</td>
-    <td>1%</td>
-    <td>460</td>
-    <td>10 June 2025</td>
-      </tr>
-      <tr>
-        <td>8.</td>
-        <td>Kittu Kumari</td>
-    <td>46,000/-</td>
-    <td>1%</td>
-    <td>460</td>
-    <td>10 July 2025</td>
-      </tr>
-      <tr>
-        <td>9.</td>
-    <td>Mahaveer Prajapati</td>
-    <td>46,000/-</td>
-    <td>1%</td>
-    <td>460</td>
-    <td>10 August 2025</td
-      </tr>
-      <tr>
-        <td>10.</td>
-    <td>Ravi Kumar</td>
-    <td>24,000/-</td>
-    <td>1%</td>
-    <td>240</td>
-    <td>10 September 2025</td
-      </tr>
-      <tr>
-        <td>10.</td>
-    <td>Muskan Kumari</td>
-    <td>24,000/-</td>
-    <td>1%</td>
-    <td>240</td>
-    <td>10 September 2025</td
-      </tr>
-      <tr>
-        <td>11.</td>
-    <td>Ravi Kumar</td>
-    <td>24,000/-</td>
-    <td>1%</td>
-    <td>240</td>
-    <td>10 October 2025</td
-      </tr>
-      <tr>
-        <td>11.</td>
-    <td>Muskan Kumari</td>
-    <td>24,000/-</td>
-    <td>1%</td>
-    <td>240</td>
-    <td>10 October 2025</td
-      </tr>
-      <tr>
-      <td>12.</td>
-    <td>Mukesh Kumar</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 November 2025</td
-      </tr>
-      <tr>
-      <td>13.</td>
-    <td>Aasani Kumari</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 December 2025</td
-      </tr>
-      <tr>
-      <td>14.</td>
-    <td>Sweta Kumari</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 january 2026</td
-      </tr>
-      <tr>
-      <td>15.</td>
-    <td>Saurabh Kumar</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 February 2026</td
-      </tr>
-      <tr>
-      <td>16.</td>
-    <td>Ajay Prajapati</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 March 2026</td
-      </tr>
-
-       <tr style="color:red;">
-      <td>17.</td>
-    <td><b>Aditya Kumar*</b></td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 April 2026</td
-      </tr>
-      <tr>
-      <td>18.</td>
-    <td>Bharat Prajapati</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 May 2026</td
-      </tr>
-      <tr>
-      <td>19.</td>
-    <td>Prabhu Dayal</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 June 2026</td
-      </tr>
-      <tr>
-      <td>20.</td>
-    <td>Sudhir Kumar</td>
-    <td>48,000/-</td>
-    <td>1%</td>
-    <td>480</td>
-    <td>10 July 2026</td
-      </tr>
-
-      
-
-
-      
-      <tr>
-        <td></td>
-    <td><b>Total</b></td>
-    <td><b></b></td>
-    <td><b></b></td>
-    <td><b></b></td>
-    <td></td>
-      </tr>
-      
+      <tr><td>1.</td><td>Anuj Lodhi</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 December 2024</td></tr>
+      <tr><td>2.</td><td>Raja Prajapati</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 January 2025</td></tr>
+      <tr><td>3.</td><td>Shiv Prakash</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 February 2025</td></tr>
+      <tr><td>4.</td><td>Subham Kumar</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 March 2025</td></tr>
+      <tr><td>5.</td><td>Annu Kumari</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 April 2025</td></tr>
+      <tr class="left"><td>6.</td><td>Aniket kumar</td><td>46,000/-</td><td>1%</td><td>460</td><td>10 May 2025</td></tr>
+      <tr><td>6.</td><td>Mukesh kumar</td><td>7,000/-<span style="color:green;"><b>Interest Amount</b></span></td><td>1%</td><td>70</td><td>10 May 2025</td></tr>
+      <tr><td>7.</td><td>Tileshar kumar</td><td>46,000/-</td><td>1%</td><td>460</td><td>10 June 2025</td></tr>
+      <tr><td>8.</td><td>Kittu Kumari</td><td>46,000/-</td><td>1%</td><td>460</td><td>10 July 2025</td></tr>
+      <tr><td>9.</td><td>Mahaveer Prajapati</td><td>46,000/-</td><td>1%</td><td>460</td><td>10 August 2025</td></tr>
+      <tr><td>10.</td><td>Ravi Kumar</td><td>24,000/-</td><td>1%</td><td>240</td><td>10 September 2025</td></tr>
+      <tr><td>10.</td><td>Muskan Kumari</td><td>24,000/-</td><td>1%</td><td>240</td><td>10 September 2025</td></tr>
+      <tr><td>11.</td><td>Ravi Kumar</td><td>24,000/-</td><td>1%</td><td>240</td><td>10 October 2025</td></tr>
+      <tr><td>11.</td><td>Muskan Kumari</td><td>24,000/-</td><td>1%</td><td>240</td><td>10 October 2025</td></tr>
+      <tr><td>12.</td><td>Mukesh Kumar</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 November 2025</td></tr>
+      <tr><td>13.</td><td>Aasani Kumari</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 December 2025</td></tr>
+      <tr><td>14.</td><td>Sweta Kumari</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 january 2026</td></tr>
+      <tr><td>15.</td><td>Saurabh Kumar</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 February 2026</td></tr>
+      <tr><td>16.</td><td>Ajay Prajapati</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 March 2026</td></tr>
+      <tr style="color:red;"><td>17.</td><td><b>Aditya Kumar*</b></td><td>48,000/-</td><td>1%</td><td>480</td><td>10 April 2026</td></tr>
+      <tr><td>18.</td><td>Bharat Prajapati</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 May 2026</td></tr>
+      <tr><td>19.</td><td>Prabhu Dayal</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 June 2026</td></tr>
+      <tr><td>20.</td><td>Sudhir Kumar</td><td>48,000/-</td><td>1%</td><td>480</td><td>10 July 2026</td></tr>
     </table>
   </div>
 
   <script>
-  window.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const memberName = urlParams.get("name");
+    window.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const rawName = urlParams.get("name");
 
-    if (memberName) {
-      const rows = document.querySelectorAll("#mytable tr");
-      let matchedRow = null;
+      if (rawName) {
+        const searchName = rawName.toLowerCase().trim();
+        const rows = document.querySelectorAll("#mytable tr");
+        let matchedRows = [];
 
-      // Table ki rows me se specific member name search karna
-      rows.forEach((row, index) => {
-        if (index === 0) return; // Header skip karein
-        const text = row.textContent.toLowerCase();
-        if (text.includes(memberName.toLowerCase().trim())) {
-          matchedRow = row;
-        }
-      });
+        // Matching rows collect karna
+        rows.forEach((row, index) => {
+          if (index === 0) return;
+          const text = row.textContent.toLowerCase();
+          if (text.includes(searchName)) {
+            matchedRows.push(row);
+          }
+        });
 
-      // Agar member mil jata hai, to poori table ki jagah sirf single card format dikhana
-      if (matchedRow) {
-        const cells = matchedRow.children;
-        const sn = cells[0]?.textContent || "";
-        const name = cells[1]?.textContent || memberName;
-        const amount = cells[2]?.textContent || "-";
-        const rate = cells[3]?.textContent || "-";
-        const interest = cells[4]?.textContent || "-";
-        const date = cells[5]?.textContent || "-";
+        if (matchedRows.length > 0) {
+          // Visual content container replace karna
+          const container = document.querySelector(".table-container");
+          const searchBox = document.querySelector(".search-container");
+          if (searchBox) searchBox.style.display = "none"; // Search bar hide karna
 
-        // Main table container ko replace karna
-        const container = document.querySelector(".table-container") || document.body;
-        container.innerHTML = `
-          <div style="max-width: 450px; margin: 20px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-family: Arial, sans-serif;">
-            <h3 style="margin-top:0; color: #d6336c; text-align: center; border-bottom: 2px solid #ffccd5; padding-bottom: 10px;">Member Detail</h3>
-            <p><strong>S.N :</strong> ${sn}</p>
-            <p><strong>Member Name :</strong> ${name}</p>
-            <p><strong>Amount :</strong> ${amount}</p>
-            <p><strong>Interest Rate :</strong> ${rate}</p>
-            <p><strong>Interest :</strong> ${interest}</p>
-            <p><strong>Issue Date :</strong> ${date}</p>
-            <div style="text-align: center; margin-top: 20px;">
-              <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 8px 16px; text-decoration: none; border-radius: 5px; font-weight: bold;">← Back to Members</a>
+          let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
+          
+          matchedRows.forEach(row => {
+            const cells = row.children;
+            cardsHTML += `
+              <div style="background: #fff; padding: 18px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #d6336c;">
+                <h3 style="margin: 0 0 10px 0; color: #d6336c; border-bottom: 1px solid #eee; padding-bottom: 6px;">Member Details</h3>
+                <p style="margin: 5px 0;"><strong>S.N :</strong> ${cells[0]?.textContent.trim() || '-'}</p>
+                <p style="margin: 5px 0;"><strong>Member Name :</strong> ${cells[1]?.textContent.trim() || '-'}</p>
+                <p style="margin: 5px 0;"><strong>Amount :</strong> ${cells[2]?.textContent.trim() || '-'}</p>
+                <p style="margin: 5px 0;"><strong>Interest Rate :</strong> ${cells[3]?.textContent.trim() || '-'}</p>
+                <p style="margin: 5px 0;"><strong>Interest :</strong> ${cells[4]?.textContent.trim() || '-'}</p>
+                <p style="margin: 5px 0;"><strong>Issue Date :</strong> ${cells[5]?.textContent.trim() || '-'}</p>
+              </div>
+            `;
+          });
+
+          cardsHTML += `
+            <div style="text-align: center; margin-top: 15px;">
+              <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
             </div>
-          </div>
-        `;
-      }
-    }
-  });
-</script>
+          </div>`;
 
+          container.innerHTML = cardsHTML;
+        }
+      }
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
