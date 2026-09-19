@@ -770,96 +770,98 @@
   </div>
 
   <script>
-  window.addEventListener("DOMContentLoaded", async function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const rawName = urlParams.get("name");
+    // PDF Download Function (Final Fixed)
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
 
-    if (!rawName) return;
-
-    const cleanSearchName = rawName.toLowerCase().replace(/mr\.|ms\./g, "").trim();
-
-    // 1. Interest.html file se dynamic fetch karke Total Interest extract karna
-    let fetchedTotalInterest = "-";
-    try {
-      const response = await fetch("Interest.html");
-      if (response.ok) {
-        const htmlText = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, "text/html");
-        
-        // Interest.html ki table rows check karna
-        const interestRows = doc.querySelectorAll("table tr");
-        interestRows.forEach(row => {
-          const rowText = row.textContent.toLowerCase();
-          if (rowText.includes(cleanSearchName)) {
-            const cells = row.children;
-            // Target row me Grand Total / Total Interest column ka text lena
-            if (cells.length > 1) {
-              fetchedTotalInterest = cells[cells.length - 1].textContent.trim();
-            }
-          }
-        });
-      }
-    } catch (error) {
-      console.log("Interest.html fetch error:", error);
-    }
-
-    // 2. paid money to member.html me data match karna
-    const rows = document.querySelectorAll("#mytable tr");
-    let matchedRows = [];
-
-    rows.forEach((row, index) => {
-      if (index === 0) return; // Header skip
-      const rowText = row.textContent.toLowerCase();
-      if (rowText.includes(cleanSearchName)) {
-        matchedRows.push(row);
-      }
-    });
-
-    const container = document.querySelector(".table-container");
-    const searchBox = document.querySelector(".search-container");
-    if (searchBox) searchBox.style.display = "none"; // Search bar hide
-
-    let cardsHTML = `<div style="max-width: 480px; margin: 20px auto; font-family: Arial, sans-serif;">`;
-
-    // Case 1: Member Data milne par
-    if (matchedRows.length > 0) {
-      matchedRows.forEach(row => {
-        const cells = row.children;
-        cardsHTML += `
-          <div style="background: #fff; padding: 18px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #d6336c;">
-            <h3 style="margin: 0 0 10px 0; color: #d6336c; border-bottom: 1px solid #eee; padding-bottom: 6px;">Member Details</h3>
-            <p style="margin: 5px 0;"><strong>S.N :</strong> ${cells[0]?.textContent.trim() || '-'}</p>
-            <p style="margin: 5px 0;"><strong>Member Name :</strong> ${cells[1]?.textContent.trim() || '-'}</p>
-            <p style="margin: 5px 0;"><strong>Amount :</strong> ${cells[2]?.textContent.trim() || '-'}</p>
-            <p style="margin: 5px 0;"><strong>Interest Rate :</strong> ${cells[3]?.textContent.trim() || '-'}</p>
-            <p style="margin: 5px 0;"><strong>Interest :</strong> ${cells[4]?.textContent.trim() || '-'}</p>
-            <p style="margin: 5px 0;"><strong>Issue Date :</strong> ${cells[5]?.textContent.trim() || '-'}</p>
-            <div style="margin-top: 10px; padding-top: 8px; border-top: 1px dashed #ccc; font-size: 15px; color: #d6336c;">
-              <strong>Total Interest :</strong> ${fetchedTotalInterest}
-            </div>
-          </div>
-        `;
-      });
-    } else {
-      // Case 2: Status NP hone par
-      cardsHTML += `
-        <div style="background: #fff; padding: 20px; text-align: center; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.12); border-left: 5px solid #dc3545;">
-          <h3 style="margin: 0 0 10px 0; color: #dc3545;">No Payment Record</h3>
-          <p style="margin: 10px 0; font-size: 16px;"><strong>Member Name :</strong> ${rawName}</p>
-          <p style="color: #6c757d; margin-top: 5px;">Payment Not Paid Yet Status is Not Paid (NP)</p>
-        </div>
-      `;
-    }
-
-    cardsHTML += `
-      <div style="text-align: center; margin-top: 20px;">
-        <a href="MemberDetails.html" style="background: #d6336c; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">← Back to Member Details</a>
-      </div>
-    </div>`;
-
-    container.innerHTML = cardsHTML;
+  // A3 Landscape for wide table
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "pt",
+    format: "a3"
   });
-</script>
+
+  // Title
+  doc.setFontSize(16);
+  doc.setTextColor(214, 51, 108);
+  doc.text("Deposited Monthly Interest - 10 January 2025 to 10 March 2026", 20, 30);
+
+  let table = document.getElementById("myTable");
+
+  let head = [];
+  let body = [];
+
+  // Header
+  let headerCells = table.rows[0].cells;
+  for (let i = 0; i < headerCells.length; i++) {
+    head.push(headerCells[i].innerText);
+  }
+
+  // Rows
+  for (let i = 1; i < table.rows.length; i++) {
+    let row = [];
+    let cells = table.rows[i].cells;
+
+    for (let j = 0; j < cells.length; j++) {
+      row.push(cells[j].innerText);
+    }
+    body.push(row);
+  }
+
+  doc.autoTable({
+    head: [head],
+    body: body,
+
+    // 🔥 Top se start (kam gap)
+    startY: 45,
+
+    theme: "grid",
+
+    styles: {
+      fontSize: 7,
+      cellPadding: 2,
+      halign: "center",
+      overflow: "linebreak"
+    },
+
+    headStyles: {
+      fillColor: [214, 51, 108],
+      textColor: 255,
+      fontSize: 8
+    },
+
+    columnStyles: {
+      0: { cellWidth: 40 },   // S.N
+      1: { cellWidth: 120 },  // Name
+    },
+
+    // 🔥 Wide table fix
+    horizontalPageBreak: true,
+    horizontalPageBreakRepeat: [0, 1],
+
+    // 🔥 Margin optimized (BOTTOM SPACE FIX)
+    margin: { top: 45, left: 20, right: 20, bottom: 10 },
+
+    didDrawPage: () => {
+      let today = new Date();
+      let dateStr = today.toLocaleDateString();
+      let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      doc.setFontSize(8);
+
+      // 🔥 Footer bilkul bottom pe
+      doc.text(Generated on: ${dateStr} ${timeStr}, 20, doc.internal.pageSize.height - 8);
+    }
+  });
+
+  // Save file
+  let today = new Date();
+  let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  let fileName = Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf;
+
+  doc.save(fileName);
+});
+  </script>
 </body>
 </html>
