@@ -38,6 +38,7 @@
         <th>Interest</th>
         <th>Issue Date</th>
         <th>Total Interest</th>
+        <th>Last EMI Date</th>
       </tr>
       <tr><td>1.</td><td>Anuj Lodhi</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 December 2024</td><td>10,000</td></tr>
       <tr><td>2.</td><td>Raja Prajapati</td><td>50,000/-</td><td>1%</td><td>500</td><td>10 January 2025</td><td>9,500</td></tr>
@@ -104,6 +105,7 @@
               <p style="margin: 5px 0;"><strong>Interest :</strong> ${cells[4]?.textContent.trim() || '-'}</p>
               <p style="margin: 5px 0;"><strong>Issue Date :</strong> ${cells[5]?.textContent.trim() || '-'}</p>
               <p style="margin: 5px 0;"><strong>Total Interest :</strong> ${cells[6]?.textContent.trim() || '-'}</p>
+              <p style="margin: 5px 0;"><strong>Last EMI Date :</strong> ${cells[7]?.textContent.trim() || '-'}</p>
             </div>
           `;
         });
