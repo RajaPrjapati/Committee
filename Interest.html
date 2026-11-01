@@ -984,33 +984,38 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
     head.push(headerCells[i].innerText);
   }
 
-  // Rows
+ // Rows and Footer extraction
+  let foot = [];
   for (let i = 1; i < table.rows.length; i++) {
     let row = [];
     let cells = table.rows[i].cells;
-
-    for (let j = 0; j < cells.length; j++) {
-      row.push(cells[j].innerText);
+    
+    // Agar ye aakhri row hai (Grand Total wali)
+    if (i === table.rows.length - 1) {
+      for (let j = 0; j < cells.length; j++) {
+        foot.push(cells[j].innerText.trim());
+      }
+    } else {
+      for (let j = 0; j < cells.length; j++) {
+        row.push(cells[j].innerText.trim());
+      }
+      body.push(row);
     }
-    body.push(row);
   }
 
   doc.autoTable({
     head: [head],
     body: body,
-
-    // 🔥 Top se start (kam gap)
+    foot: [foot],   // 🔥 Yeh line add karni hai
     startY: 45,
-
     theme: "grid",
-
-    styles: {
-      fontSize: 7,
-      cellPadding: 2,
-      halign: "center",
-      overflow: "linebreak"
+    styles: { fontSize: 7, cellPadding: 2, halign: "center", overflow: "linebreak" },
+    headStyles: { fillColor: [214, 51, 108], textColor: 255, fontSize: 8 },
+    footStyles: { fillColor: [214, 51, 108], textColor: 255, fontSize: 8, fontStyle: 'bold' }, // 🔥 Footer design
+    columnStyles: {
+      0: { cellWidth: 40 },  // S.N
+      1: { cellWidth: 120 }  // Name
     },
-
     headStyles: {
       fillColor: [214, 51, 108],
       textColor: 255,
