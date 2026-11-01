@@ -976,15 +976,45 @@ document.getElementById("searchBox").addEventListener("keyup", function() {
     }
 });
 
-// 2. Full PDF Download Logic (Exporting all rows including Grand Total footer)
+// 2. Single-Page PDF Download Logic
 document.getElementById("downloadBtn").addEventListener("click", () => {
     const { jsPDF } = window.jspdf;
-    
-    // A3 Landscape mode for wide table view
+
+    let table = document.getElementById("myTable");
+    let head = [];
+    let body = [];
+    let foot = [];
+
+    // Extract Headers
+    let headerCells = table.rows[0].cells;
+    for (let i = 0; i < headerCells.length; i++) {
+        head.push(headerCells[i].innerText.trim());
+    }
+
+    // Extract Data Rows & Footer
+    for (let i = 1; i < table.rows.length; i++) {
+        let row = [];
+        let cells = table.rows[i].cells;
+
+        if (i === table.rows.length - 1) {
+            for (let j = 0; j < cells.length; j++) {
+                foot.push(cells[j].innerText.trim());
+            }
+        } else {
+            for (let j = 0; j < cells.length; j++) {
+                row.push(cells[j].innerText.trim());
+            }
+            body.push(row);
+        }
+    }
+
+    // Dynamic Height Calculation for Single Page Fit
+    const estimatedHeight = Math.max(800, body.length * 18 + 140);
+
     const doc = new jsPDF({
         orientation: "landscape",
         unit: "pt",
-        format: "a3"
+        format: [1680, estimatedHeight] // Custom 1-Page Canvas Dimensions
     });
 
     // Header Title
@@ -993,45 +1023,16 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
     doc.setFont("helvetica", "bold");
     doc.text("Deposited Monthly Interest - 10 January 2025 to 10 December 2026", 20, 30);
 
-    let table = document.getElementById("myTable");
-    let head = [];
-    let body = [];
-    let foot = [];
-
-    // Extract Table Headers
-    let headerCells = table.rows[0].cells;
-    for (let i = 0; i < headerCells.length; i++) {
-        head.push(headerCells[i].innerText.trim());
-    }
-
-    // Extract Table Data Rows & Footer
-    for (let i = 1; i < table.rows.length; i++) {
-        let row = [];
-        let cells = table.rows[i].cells;
-
-        if (i === table.rows.length - 1) {
-            // Last row -> Footer Grand Total
-            for (let j = 0; j < cells.length; j++) {
-                foot.push(cells[j].innerText.trim());
-            }
-        } else {
-            // Data Rows (Pura data PDF me aayega chahe search box me kuch bhi ho)
-            for (let j = 0; j < cells.length; j++) {
-                row.push(cells[j].innerText.trim());
-            }
-            body.push(row);
-        }
-    }
-
-    // Render Table using jsPDF AutoTable plugin
+    // AutoTable Settings for Strict 1-Page Output
     doc.autoTable({
         head: [head],
         body: body,
         foot: [foot],
         startY: 45,
         theme: "grid",
+        pageBreak: 'avoid',
         styles: {
-            fontSize: 7,
+            fontSize: 7.5,
             cellPadding: 3,
             halign: "center",
             valign: "middle",
@@ -1040,22 +1041,20 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
         headStyles: {
             fillColor: [214, 51, 108],
             textColor: 255,
-            fontSize: 8,
+            fontSize: 8.5,
             fontStyle: "bold"
         },
         footStyles: {
             fillColor: [214, 51, 108],
             textColor: 255,
-            fontSize: 8,
+            fontSize: 8.5,
             fontStyle: "bold"
         },
         columnStyles: {
-            0: { cellWidth: 35 }, // S.N column width
-            1: { cellWidth: 110, halign: "left" } // Member Name column width and left align
+            0: { cellWidth: 35 },
+            1: { cellWidth: 120, halign: "left" }
         },
-        horizontalPageBreak: true, // Split table cleanly across pages if too wide
-        horizontalPageBreakRepeat: [0, 1], // Repeat S.N and Name on next pages
-        margin: { top: 45, left: 20, right: 20, bottom: 25 },
+        margin: { top: 45, left: 15, right: 15, bottom: 20 },
         didDrawPage: (data) => {
             let today = new Date();
             let dateStr = today.toLocaleDateString();
@@ -1065,13 +1064,13 @@ document.getElementById("downloadBtn").addEventListener("click", () => {
             doc.setTextColor(100);
             doc.text(
                 `Generated on: ${dateStr} ${timeStr}`,
-                20,
+                15,
                 doc.internal.pageSize.height - 10
             );
         }
     });
 
-    // Save PDF File with Exact Name
+    // Save File with exact name
     let fileName = "Deposited_Monthly_Interest_10_Jan_2025_to_10_Dec_2026.pdf";
     doc.save(fileName);
 });
