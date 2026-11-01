@@ -957,105 +957,104 @@
   </div>
 
   <script>
-    // PDF Download Function (Final Fixed)
 document.getElementById("downloadBtn").addEventListener("click", () => {
-  const { jsPDF } = window.jspdf;
+    const { jsPDF } = window.jspdf;
 
-  // A3 Landscape for wide table
-  const doc = new jsPDF({
-    orientation: "landscape",
-    unit: "pt",
-    format: "a3"
-  });
+    // A3 Landscape mode for wide table view
+    const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "pt",
+        format: "a3"
+    });
 
-  // Title
-  doc.setFontSize(16);
-  doc.setTextColor(214, 51, 108);
-  doc.text("Deposited Monthly Interest - 10 January 2025 to 10 December 2026", 20, 30);
+    // Header Title
+    doc.setFontSize(16);
+    doc.setTextColor(214, 51, 108); // Pink Theme Color
+    doc.setFont("helvetica", "bold");
+    doc.text("Deposited Monthly Interest - 10 January 2025 to 10 December 2026", 20, 30);
 
-  let table = document.getElementById("myTable");
+    let table = document.getElementById("myTable");
+    let head = [];
+    let body = [];
+    let foot = [];
 
-  let head = [];
-  let body = [];
-
-  // Header
-  let headerCells = table.rows[0].cells;
-  for (let i = 0; i < headerCells.length; i++) {
-    head.push(headerCells[i].innerText);
-  }
-
- // Rows and Footer extraction
-  let foot = [];
-  for (let i = 1; i < table.rows.length; i++) {
-    let row = [];
-    let cells = table.rows[i].cells;
-    
-    // Agar ye aakhri row hai (Grand Total wali)
-    if (i === table.rows.length - 1) {
-      for (let j = 0; j < cells.length; j++) {
-        foot.push(cells[j].innerText.trim());
-      }
-    } else {
-      for (let j = 0; j < cells.length; j++) {
-        row.push(cells[j].innerText.trim());
-      }
-      body.push(row);
+    // Extract Headers
+    let headerCells = table.rows[0].cells;
+    for (let i = 0; i < headerCells.length; i++) {
+        head.push(headerCells[i].innerText.trim());
     }
-  }
 
-  doc.autoTable({
-    head: [head],
-    body: body,
-    foot: [foot],   // 🔥 Yeh line add karni hai
-    startY: 45,
-    theme: "grid",
-    styles: { fontSize: 7, cellPadding: 2, halign: "center", overflow: "linebreak" },
-    headStyles: { fillColor: [214, 51, 108], textColor: 255, fontSize: 8 },
-    footStyles: { fillColor: [214, 51, 108], textColor: 255, fontSize: 8, fontStyle: 'bold' }, // 🔥 Footer design
-    columnStyles: {
-      0: { cellWidth: 40 },  // S.N
-      1: { cellWidth: 120 }  // Name
-    },
-    headStyles: {
-      fillColor: [214, 51, 108],
-      textColor: 255,
-      fontSize: 8
-    },
+    // Extract Table Body & Footer (Grand Total Row)
+    for (let i = 1; i < table.rows.length; i++) {
+        let row = [];
+        let cells = table.rows[i].cells;
 
-    columnStyles: {
-      0: { cellWidth: 40 },   // S.N
-      1: { cellWidth: 120 },  // Name
-    },
-
-    // 🔥 Wide table fix
-    horizontalPageBreak: true,
-    horizontalPageBreakRepeat: [0, 1],
-
-    // 🔥 Margin optimized (BOTTOM SPACE FIX)
-    margin: { top: 45, left: 20, right: 20, bottom: 10 },
-
-    didDrawPage: () => {
-      let today = new Date();
-      let dateStr = today.toLocaleDateString();
-      let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-
-      doc.setFontSize(8);
-
-      // 🔥 Footer bilkul bottom pe
-      doc.text(`Generated on: ${dateStr} ${timeStr}`, 20, doc.internal.pageSize.height - 8);
+        if (i === table.rows.length - 1) {
+            // Last row -> Footer Total
+            for (let j = 0; j < cells.length; j++) {
+                foot.push(cells[j].innerText.trim());
+            }
+        } else {
+            // Data Rows
+            for (let j = 0; j < cells.length; j++) {
+                row.push(cells[j].innerText.trim());
+            }
+            body.push(row);
+        }
     }
-  });
 
- 
+    // AutoTable PDF Rendering
+    doc.autoTable({
+        head: [head],
+        body: body,
+        foot: [foot],
+        startY: 45,
+        theme: "grid",
+        styles: {
+            fontSize: 7,
+            cellPadding: 3,
+            halign: "center",
+            valign: "middle",
+            overflow: "linebreak"
+        },
+        headStyles: {
+            fillColor: [214, 51, 108],
+            textColor: 255,
+            fontSize: 8,
+            fontStyle: "bold"
+        },
+        footStyles: {
+            fillColor: [214, 51, 108],
+            textColor: 255,
+            fontSize: 8,
+            fontStyle: "bold"
+        },
+        columnStyles: {
+            0: { cellWidth: 35 }, // S.N
+            1: { cellWidth: 110, halign: "left" } // Member Name
+        },
+        horizontalPageBreak: true, // Split table cleanly across pages if too wide
+        horizontalPageBreakRepeat: [0, 1], // Repeat S.N and Name on next pages
+        margin: { top: 45, left: 20, right: 20, bottom: 25 },
+        didDrawPage: (data) => {
+            let today = new Date();
+            let dateStr = today.toLocaleDateString();
+            let timeStr = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-  // Save file
-  let today = new Date();
-  let time = today.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+            doc.setFontSize(8);
+            doc.setTextColor(100);
+            doc.text(
+                `Generated on: ${dateStr} ${timeStr}`,
+                20,
+                doc.internal.pageSize.height - 10
+            );
+        }
+    });
 
-  let fileName = `Deposited_interest_${today.getDate()}_${today.toLocaleString('default',{month:'short'})}_${today.getFullYear()}_${time}.pdf`;
-
-  doc.save(fileName);
+    // Exact Title Dynamic Download Name
+    let fileName = "Deposited_Monthly_Interest_10_Jan_2025_to_10_Dec_2026.pdf";
+    doc.save(fileName);
 });
-  </script>
+</script>
 </body>
 </html>
